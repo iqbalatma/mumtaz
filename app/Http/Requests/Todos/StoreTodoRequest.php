@@ -25,7 +25,8 @@ class StoreTodoRequest extends FormRequest
     {
         return [
             "name" => "max:255",
-            "project_id" => "numeric|required"
+            "project_id" => "numeric|required",
+            "user_id" => "numeric|required",
         ];
     }
 }

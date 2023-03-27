@@ -28,6 +28,17 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="first-name-vertical">User</label>
+                                            <select class="form-select" aria-label="Select project" name="user_id" id="user_id" required>
+                                                <option selected value disabled>Open this select menu</option>
+                                                @foreach ($users as $key=>$user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-12 d-flex justify-content-end">
                                         <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                                         <button id="reset" type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
@@ -56,6 +67,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
+                                    <th scope="col">Assigned User</th>
                                     <th scope="col">Project Name</th>
                                     <th scope="col">Todo name</th>
                                     <th scope="col">Crated At</th>
@@ -67,6 +79,7 @@
                                 @foreach ($todos as $key => $todo)
                                 <tr>
                                     <td>{{ $todos->firstItem()+$key }}</td>
+                                    <td>{{ $todo->project->user->name ?? "" }}</td>
                                     <td>{{ $todo->project->name ?? "" }}</td>
                                     <td>{{ $todo->name }}</td>
                                     <td>{{ $todo->created_at }}</td>
@@ -125,6 +138,19 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-12 my-4">
+                                    <ul class="list-group list-group-flush" id="comment-list">
+                                        <li class="list-group-item">An item</li>
+                                        <li class="list-group-item">A second item</li>
+                                        <li class="list-group-item">A third item</li>
+                                        <li class="list-group-item">A fourth item</li>
+                                        <li class="list-group-item">And a fifth one</li>
+                                    </ul>
+                                </div>
+                                <div class="col-12">
+                                    <label for="comment" class="form-label">New Comment</label>
+                                    <textarea class="form-control" id="comment" name="body" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -146,11 +172,16 @@
     <script>
         $(function () {
             $("#project_id").selectize({});
+            $("#user_id").selectize({});
             let editSelect = $("#edit-project-id").selectize({})[0].selectize;
             $(".btn-edit").on("click", function(){
                 const todo = $(this).data("todo");
                 const newUrl = $("#form-edit").attr("action").replace(":id", todo.id);
 
+                $("#comment-list").empty();
+                todo.comment.forEach(element => {
+                    $("#comment-list").append(`<li class='list-group-item'>${element.body}</li>`);
+                });
 
                 $("#form-edit").attr("action", newUrl);
                 $("#edit-name").val(todo.name);

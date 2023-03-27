@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\Interfaces\TodoServiceInterface;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TodoRepository;
+use App\Repositories\UserRepository;
 use Exception;
 use Iqbalatma\LaravelServiceRepo\BaseService;
 
@@ -12,11 +13,13 @@ class TodoService extends BaseService implements TodoServiceInterface
 {
     protected $repository;
     protected $projectRepo;
+    protected $userRepo;
 
     public function __construct()
     {
         $this->repository = new TodoRepository();
         $this->projectRepo = new ProjectRepository();
+        $this->userRepo = new UserRepository();
     }
 
     /**
@@ -27,12 +30,13 @@ class TodoService extends BaseService implements TodoServiceInterface
     public function getAllData(): array
     {
         try {
-            $todos = $this->repository->orderBy(["id"], "id", "DESC")->getAllDataPaginated();
+            $todos = $this->repository->with(["project.user", "comment"])->orderBy(["id"], "id", "DESC")->getAllDataPaginated();
             $response = [
                 "success" => true,
                 "title" => "Todo",
                 "todos" => $todos,
-                "projects" => $this->projectRepo->getAllData()
+                "projects" => $this->projectRepo->getAllData(),
+                "users" => $this->userRepo->getAllData()
             ];
         } catch (Exception $e) {
             $response = [
@@ -83,6 +87,7 @@ class TodoService extends BaseService implements TodoServiceInterface
 
             $todo = $this->getData();
             $todo->fill($requestedData);
+            $todo->comment()->create($requestedData);
             $todo->save();
             $response = [
                 "success" => true,

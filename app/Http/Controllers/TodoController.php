@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Todos\StoreTodoRequest;
 use App\Http\Requests\Todos\UpdateTodoRequest;
+use App\Models\Todo;
 use App\Services\TodoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;

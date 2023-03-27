@@ -25,7 +25,8 @@ class UpdateTodoRequest extends FormRequest
     {
         return [
             "name" => "max:255",
-            "project_id" => "numeric|required"
+            "project_id" => "numeric|required",
+            "body" => "",
         ];
     }
 }

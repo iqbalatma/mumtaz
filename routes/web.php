@@ -35,4 +35,5 @@ Route::prefix("todos")->name("todos.")->controller(TodoController::class)->group
     Route::get("/", "index")->name("index");
     Route::post("/", "store")->name("store");
     Route::put("/{id}", "update")->name("update");
+    Route::delete("/{id}", "destroy")->name("destroy");
 });

@@ -10,7 +10,6 @@ use Illuminate\Http\Response;
 
 class TodoController extends Controller
 {
-
     /**
      * Use to show all data toto
      *
@@ -57,5 +56,22 @@ class TodoController extends Controller
         if ($this->isError($response)) return $this->getErrorResponse();
 
         return redirect()->back()->with(["success" => "Update data todo successfully"]);
+    }
+
+
+    /**
+     * Use to delete data todo
+     *
+     * @param TodoService $service
+     * @param integer $id
+     * @return RedirectResponse
+     */
+    public function destroy(TodoService $service, int $id): RedirectResponse
+    {
+        $response = $service->deleteDataById($id);
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->back()->with(["success" => "Delete data todo successfully"]);
     }
 }

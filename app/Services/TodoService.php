@@ -68,6 +68,14 @@ class TodoService extends BaseService implements TodoServiceInterface
         return $response;
     }
 
+
+    /**
+     * Use to update data by id
+     *
+     * @param integer $id
+     * @param array $requestedData
+     * @return array
+     */
     public function updateDataById(int $id, array $requestedData): array
     {
         try {
@@ -76,6 +84,25 @@ class TodoService extends BaseService implements TodoServiceInterface
             $todo = $this->getData();
             $todo->fill($requestedData);
             $todo->save();
+            $response = [
+                "success" => true,
+            ];
+        } catch (Exception $e) {
+            $response = [
+                "success" => false,
+                "message" => $e->getMessage()
+            ];
+        }
+
+        return $response;
+    }
+
+    public function deleteDataById(int $id): array
+    {
+        try {
+            $this->checkData($id);
+            $this->repository->deleteDataById($id);
+
             $response = [
                 "success" => true,
             ];

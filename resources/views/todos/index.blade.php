@@ -76,6 +76,9 @@
                                         <button type="button" class="btn btn-primary btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModal" data-todo="{{ $todo }}">
                                             Edit
                                         </button>
+                                        <button type="submit" form="form-delete" class="btn btn-danger btn-delete" data-id="{{ $todo->id }}">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -134,6 +137,11 @@
         </div>
     </div>
 
+    <form action="{{ route('todos.destroy', ':id') }}" method="POST" id="form-delete">
+        @csrf
+        @method("DELETE")
+    </form>
+
     @push("scripts")
     <script>
         $(function () {
@@ -147,6 +155,28 @@
                 $("#form-edit").attr("action", newUrl);
                 $("#edit-name").val(todo.name);
                 editSelect.setValue(todo.project_id);
+            })
+
+            $(".btn-delete").on("click", function(e){
+                e.preventDefault();
+                const id = $(this).data("id");
+                const newUrl = $("#form-delete").attr("action").replace(":id", id);
+                $("#form-delete").attr("action", newUrl);
+
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#form-delete").submit();
+                    }
+                })
             })
         });
 

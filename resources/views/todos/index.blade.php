@@ -60,6 +60,7 @@
                                     <th scope="col">Todo name</th>
                                     <th scope="col">Crated At</th>
                                     <th scope="col">Updated At</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,6 +71,12 @@
                                     <td>{{ $todo->name }}</td>
                                     <td>{{ $todo->created_at }}</td>
                                     <td>{{ $todo->updated_at }}</td>
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModal" data-todo="{{ $todo }}">
+                                            Edit
+                                        </button>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -77,21 +84,72 @@
                         </table>
                         {{ $todos->withQueryString()->links() }}
                         @endif
-
                     </div>
                 </div>
 
             </div>
         </div>
-
-
     </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Todo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-edit" class="form form-vertical row g-3" method="POST" action="{{ route('todos.update', ':id') }}">
+                        @csrf
+                        @method("PUT")
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="first-name-vertical">Todo</label>
+                                        <input type="text" class="form-control" name="name" id="edit-name" placeholder="Todo " required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="first-name-vertical">Project</label>
+                                        <select class="form-select" aria-label="Select project" name="project_id" id="edit-project-id" required>
+                                            <option selected value disabled>Open this select menu</option>
+                                            @foreach ($projects as $key=>$project)
+                                            <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="form-edit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @push("scripts")
     <script>
         $(function () {
             $("#project_id").selectize({});
+            let editSelect = $("#edit-project-id").selectize({})[0].selectize;
+            $(".btn-edit").on("click", function(){
+                const todo = $(this).data("todo");
+                const newUrl = $("#form-edit").attr("action").replace(":id", todo.id);
+
+
+                $("#form-edit").attr("action", newUrl);
+                $("#edit-name").val(todo.name);
+                editSelect.setValue(todo.project_id);
+            })
         });
+
     </script>
     @endpush
 </x-dashboard.layout>

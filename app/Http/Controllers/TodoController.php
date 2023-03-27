@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Todos\StoreTodoRequest;
+use App\Http\Requests\Todos\UpdateTodoRequest;
 use App\Services\TodoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
@@ -39,5 +40,22 @@ class TodoController extends Controller
         if ($this->isError($response)) return $this->getErrorResponse();
 
         return redirect()->back()->with(["success" => "Add new todo successfully"]);
+    }
+
+    /**
+     * Use to update data todo
+     *
+     * @param TodoService $service
+     * @param UpdateTodoRequest $request
+     * @param integer $id
+     * @return RedirectResponse
+     */
+    public function update(TodoService $service, UpdateTodoRequest $request, int $id): RedirectResponse
+    {
+        $response = $service->updateDataById($id, $request->validated());
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->back()->with(["success" => "Update data todo successfully"]);
     }
 }

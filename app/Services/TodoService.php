@@ -67,4 +67,25 @@ class TodoService extends BaseService implements TodoServiceInterface
 
         return $response;
     }
+
+    public function updateDataById(int $id, array $requestedData): array
+    {
+        try {
+            $this->checkData($id);
+
+            $todo = $this->getData();
+            $todo->fill($requestedData);
+            $todo->save();
+            $response = [
+                "success" => true,
+            ];
+        } catch (Exception $e) {
+            $response = [
+                "success" => false,
+                "message" => $e->getMessage()
+            ];
+        }
+
+        return $response;
+    }
 }

@@ -28,17 +28,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="first-name-vertical">User</label>
-                                            <select class="form-select" aria-label="Select project" name="user_id" id="user_id" required>
-                                                <option selected value disabled>Open this select menu</option>
-                                                @foreach ($users as $key=>$user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="col-12 d-flex justify-content-end">
                                         <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                                         <button id="reset" type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
@@ -140,11 +129,6 @@
                                 </div>
                                 <div class="col-12 my-4">
                                     <ul class="list-group list-group-flush" id="comment-list">
-                                        <li class="list-group-item">An item</li>
-                                        <li class="list-group-item">A second item</li>
-                                        <li class="list-group-item">A third item</li>
-                                        <li class="list-group-item">A fourth item</li>
-                                        <li class="list-group-item">And a fifth one</li>
                                     </ul>
                                 </div>
                                 <div class="col-12">

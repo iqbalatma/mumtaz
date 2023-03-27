@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AJAX\ProductController as AJAXProductController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,9 @@ Route::group([
     "as" => "ajax.products."
 ], function () {
     Route::post("/", "store")->name("store");
+});
+
+
+Route::prefix("todos")->name("todos.")->controller(TodoController::class)->group(function () {
+    Route::get("/", "index")->name("index");
 });

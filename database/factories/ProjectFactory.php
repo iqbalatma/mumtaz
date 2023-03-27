@@ -5,10 +5,11 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Todo>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
  */
-class TodoFactory extends Factory
+class ProjectFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +19,8 @@ class TodoFactory extends Factory
     public function definition()
     {
         return [
-            "name" => "Todo name " . Str::random(1),
-            "project_id" => fake()->numberBetween(1, 100)
+            "name" => "project name " . Str::random(1),
+            "user_id" => 1
         ];
     }
 }

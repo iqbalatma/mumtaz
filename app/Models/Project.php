@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Todo extends Model
+class Project extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["name", "project_id"];
+    protected $fillable = ["name", "user_id"];
 
-    public function project()
+    public function user()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function tag()
+    public function todo()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->hasMany(Todo::class);
     }
 
     public function comment()

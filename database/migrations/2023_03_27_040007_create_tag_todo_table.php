@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('todo_user', function (Blueprint $table) {
+        Schema::create('tag_todo', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("todo_id");
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("tag_id");
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('todo_user');
+        Schema::dropIfExists('tag_todo');
     }
 };

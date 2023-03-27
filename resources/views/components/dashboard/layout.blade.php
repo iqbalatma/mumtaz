@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>{{ $title }}</title>
 
     <link rel="stylesheet" href="{{ asset('dist/assets/css/main/app.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/assets/css/main/app-dark.css') }}">
@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="{{ asset('dist/assets/css/shared/iconly.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -59,9 +60,10 @@
             </header>
 
             <div class="page-heading">
-                <h3>Coalition Test</h3>
+                <h3>Mumtaz Test</h3>
             </div>
             <div class="page-content">
+                <x-alert></x-alert>
                 {{ $slot }}
             </div>
 
@@ -70,8 +72,12 @@
     </div>
     <script src="{{ asset('dist/assets/js/bootstrap.js') }}"></script>
     <script src="{{ asset('dist/assets/js/app.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     @vite("resources/js/app.js")
-    @yield("custom-scripts")
+    @stack('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </body>
 
 </html>

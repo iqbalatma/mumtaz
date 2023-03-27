@@ -2,19 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Statuses;
-use App\Models\Tag;
-use App\Models\Todo;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\Todos\StoreTodoRequest;
+use App\Services\TodoService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 class TodoController extends Controller
 {
-    public function index()
+
+    /**
+     * Use to show all data toto
+     *
+     * @param TodoService $service
+     * @return Response|RedirectResponse
+     */
+    public function index(TodoService $service): Response|RedirectResponse
     {
-        dd(Todo::with("tag")->find(1));
-        dd(User::with(["project", "todo"])->find(1));
-        dd(Statuses::cases());
-        dd("tes");
+        $response = $service->getAllData();
+        if ($this->isError($response, route("index"))) return $this->getErrorResponse();
+        viewShare($response);
+        return response()->view("todos.index");
+    }
+
+
+    /**
+     * Use to add new data
+     *
+     * @param TodoService $service
+     * @param StoreTodoRequest $request
+     * @return RedirectResponse
+     */
+    public function store(TodoService $service, StoreTodoRequest $request): RedirectResponse
+    {
+        $response = $service->addNewData($request->validated());
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->back()->with(["success" => "Add new todo successfully"]);
     }
 }

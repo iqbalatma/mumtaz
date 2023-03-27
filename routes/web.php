@@ -16,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductController::class, "index"]);
+Route::get("/", function () {
+    dd("INDEX !");
+})->name("index");
+
+// Route::get('/', [ProductController::class, "index"]);
 
 Route::group([
     "prefix" => "/ajax/products",
@@ -29,4 +33,5 @@ Route::group([
 
 Route::prefix("todos")->name("todos.")->controller(TodoController::class)->group(function () {
     Route::get("/", "index")->name("index");
+    Route::post("/", "store")->name("store");
 });
